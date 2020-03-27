@@ -1,16 +1,15 @@
-// @ts-ignore
 import {
   Eyes,
   BatchInfo,
   VisualGridRunner,
-  Target
+  Target,
 } from '@applitools/eyes.webdriverio';
 import { BrowserType, Configuration } from '@applitools/eyes-selenium';
 import Proof, {
   ProofPlugin,
   TestHookArgs,
   TestHookBaseArgs,
-  ProofTest
+  ProofTest,
 } from '@proof-ui/core';
 import { TestCallback } from '@proof-ui/test';
 import CLIPlugin, { CLIOption, Arguments } from '@proof-ui/cli-plugin';
@@ -31,23 +30,23 @@ function defaultConfigure(configuration: Configuration) {
 }
 
 export default class ApplitoolsPlugin implements ProofPlugin, CLIPlugin {
-  private options: ApplitoolsPluginConfig;
+  private readonly options: ApplitoolsPluginConfig;
 
-  private delay = 1000;
+  private readonly delay: number = 1000;
 
   private baseBatchName = 'batchName';
 
   private enabled = false;
 
-  private appSDKID = process.env[APPLITOOLS_SDK_ENV];
+  private readonly appSDKID = process.env[APPLITOOLS_SDK_ENV];
 
-  private visualSessions = new Map<string, Eyes>();
+  private readonly visualSessions = new Map<string, Eyes>();
 
   private commonBatchInfo?: BatchInfo;
 
   constructor(options?: ApplitoolsPluginConfig) {
-    this.options = options || {};
-    if (options && options.delay !== undefined) {
+    this.options = options ?? {};
+    if (options?.delay !== undefined) {
       this.delay = options.delay;
     }
   }
@@ -61,7 +60,7 @@ export default class ApplitoolsPlugin implements ProofPlugin, CLIPlugin {
     configuration.setAppName('Proof');
     configuration.setTestName('WebdriverIO Visual Grid');
 
-    const browserConfig = this.options.configure || defaultConfigure;
+    const browserConfig = this.options.configure ?? defaultConfigure;
 
     browserConfig(configuration);
 
@@ -72,15 +71,15 @@ export default class ApplitoolsPlugin implements ProofPlugin, CLIPlugin {
     configuration.stitchMode = 'CSS';
     eyes.setConfiguration(configuration);
 
-    if (!this.commonBatchInfo) {
-      eyes.setBatch(this.baseBatchName);
-      this.commonBatchInfo = eyes.getBatch();
-    } else {
+    if (this.commonBatchInfo) {
       eyes.setBatch(
         this.commonBatchInfo._name,
         this.commonBatchInfo._id,
         this.commonBatchInfo._startedAt
       );
+    } else {
+      eyes.setBatch(this.baseBatchName);
+      this.commonBatchInfo = eyes.getBatch();
     }
 
     await eyes.open(testArgs.browser, 'proof/visual', testArgs.name);
@@ -90,7 +89,7 @@ export default class ApplitoolsPlugin implements ProofPlugin, CLIPlugin {
   private async runVisualCheck(eyes: Eyes, logger: Logger, name: string) {
     logger.trace(`Taking screenshot for ${name}`);
     if (this.delay > 0) {
-      await new Promise(r => setTimeout(r, this.delay));
+      await new Promise((r) => setTimeout(r, this.delay));
     }
 
     await eyes.check(`${name ? `${name}-` : ''}`, Target.window());
@@ -144,16 +143,16 @@ export default class ApplitoolsPlugin implements ProofPlugin, CLIPlugin {
           name: 'visual',
           description: 'Run visual tests using applitools against your stories',
           type: Boolean,
-          defaultValue: false
+          defaultValue: false,
         },
         {
           name: 'visual-batch-name',
           description:
             'Change the batch name to use when reporting in applitools',
           type: String,
-          defaultValue: `Local (${process.env.USER})`
-        }
-      ]
+          defaultValue: `Local (${process.env.USER})`,
+        },
+      ],
     };
   }
 

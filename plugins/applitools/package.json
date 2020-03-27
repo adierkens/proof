@@ -8,11 +8,14 @@
     "build:watch": "tsc --watch"
   },
   "dependencies": {
-    "@applitools/eyes-selenium": "4.28.1",
-    "@applitools/eyes.webdriverio": "^2.9.0"
+    "@applitools/eyes-selenium": "4.33.29",
+    "@applitools/eyes.webdriverio": "^2.12.6"
   },
   "peerDependencies": {
-    "@proof-ui/core": "*"
+    "@proof-ui/core": "*",
+    "@proof-ui/test": "*",
+    "@proof-ui/cli-plugin": "*",
+    "@proof-ui/logger": "*"
   },
   "publishConfig": {
     "access": "public",
@@ -20,6 +23,6 @@
   },
   "devDependencies": {
     "@proof-ui/core": "link:../../packages/core",
-    "typescript": "3.5.3"
+    "typescript": "3.8.3"
   }
 }

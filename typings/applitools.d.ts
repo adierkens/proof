@@ -1,6 +1,6 @@
-import { BrowserType } from '@applitools/eyes-selenium';
-
 declare module '@applitools/eyes-webdriverio' {
+  import { BrowserType } from '@applitools/eyes-selenium';
+
   export interface ViewportSize {
     width: number;
     height: number;

@@ -48,7 +48,7 @@ export class LocalGrid {
     }
 
     this.process = this.install.then(() => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         selenium.start((err: any, child: ChildProcess) => {
           if (err) {
             // Return reject(err);

@@ -1,4 +1,6 @@
-declare module '@applitools/eyes.webdriverio' {
+import { BrowserType } from '@applitools/eyes-selenium';
+
+declare module '@applitools/eyes-webdriverio' {
   export interface ViewportSize {
     width: number;
     height: number;
@@ -68,5 +70,9 @@ declare module '@applitools/eyes.webdriverio' {
     ): Promise<any>;
 
     setConfiguration(conf: any): void;
+  }
+
+  export class Configuration {
+    addBrowser(width: number, height: number, type: BrowserType): void;
   }
 }
